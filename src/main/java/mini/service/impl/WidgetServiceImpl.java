@@ -181,7 +181,10 @@ public class WidgetServiceImpl implements WidgetService {
         List<Widget> finded = null;
         lock.readLock().lock();
         try {
-            finded = store;
+            finded = store
+                    .stream()
+                    .sorted(Comparator.comparingLong(Widget::getId))
+                    .collect(Collectors.toList());
         } finally {
             lock.readLock().unlock();
         }
